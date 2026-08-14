@@ -71,8 +71,10 @@ The following libraries are automatically fetched and linked via `vcpkg.json`:
 
 ## Usage & Input Format
 The engine expects standard tab-separated `.txt` files representing the Hamiltonian of the system.  
-Input file formatting and examples can be found in `docs/user_guide.md` and the `examples/` folder.
+
+Input file formatting and examples can be found in `docs/user_guide.md` and the `examples/` folder.  
+
 The user may be interested to explore a prototype Python-based program for generating input files from SMILES strings (generated from ChemDraw by highlighting and copying as smiles via Ctrl+Alt+C).  
-I wrote this specifically for the Tight Binding Funtime Engine and it can be found over at The University of Liverpool in our dedicated group repository:  
-[TB_Input Generator: SMILES To Hückel](https://github.com/Molecular-Electronics-Liverpool/SMILES-2-Huckel).
+
+I wrote this specifically for the Tight Binding Funtime Engine and it can be found over at The University of Liverpool in our dedicated group repository: [TB_Input Generator: SMILES To Hückel](https://github.com/Molecular-Electronics-Liverpool/SMILES-2-Huckel).
 
