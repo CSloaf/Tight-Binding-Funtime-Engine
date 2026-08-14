@@ -16,7 +16,7 @@ By abstracting away the scripting required by library based solutions, users can
 
 * **Drag-and-Drop Workflow:** Seamlessly drop input files directly into the configuration paths.
 
-* **High-Performance Math:** Under the hood, matrix operations and self-energy calculations are driven by Eigen3.
+* **High-Performance Maths:** Under the hood, matrix operations and self-energy calculations are driven by Eigen3.
 
 ## How to Cite
 
