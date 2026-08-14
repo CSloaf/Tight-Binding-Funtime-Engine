@@ -1,0 +1,15 @@
+# Visual Studio cache
+.vs/
+.vs_old/
+
+# CMake and Build artifacts
+out/
+out_old/
+build/
+*.cmake
+CMakeCache.txt
+
+# Compiled binaries
+*.exe
+*.pdb
+*.ilk
