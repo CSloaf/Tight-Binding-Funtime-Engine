@@ -10,7 +10,7 @@ By abstracting away the scripting required by library based solutions, users can
 
 ## Features
 
-* **Interactive Visualizer:** Real-time, semi-log plotting of transmission spectra via Dear ImGui and ImPlot.
+* **Interactive Visualiser:** Real-time, semi-log plotting of transmission spectra via Dear ImGui and ImPlot.
 
 * **Batch Processing:** By pointing the program to a folder of Hamiltonians & setting a visual delay timer, the program automatically calculates and plots data sequentially.
 
