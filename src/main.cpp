@@ -5,6 +5,10 @@
 // This software is released under the GNU General Public License v3.0 (or any later version).
 // --------------------------------------------------------------------------------------------
 
+// AI Disclaimer: Generative AI was used to assist with UI layout and style codeblocks, all underlying
+// logic and architecture choices were made by a human and the combined example UI boilerplate and AI
+// generated UI boilerplate code was tweaked and tested by a human for graphical/rendering issues.
+
 #ifdef _WIN32
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup") // Disable console window on Windows
 #endif
@@ -58,7 +62,7 @@ struct BatchState {
 };
 static BatchState batch;
 
-// [Win32] VS2015+ linking fix
+// [Win32] VS2015+ linking (see imgui example_glfw_opengl3)
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
@@ -73,7 +77,7 @@ static void glfw_error_callback(int error, const char* description) {
 }
 
 //**********************************************//
-//              MY CODE BLOCK NO GUI            //
+//        PURE LOGIC CODE BLOCK NO GUI          //
 //**********************************************//
 
 std::string MatFormat(const Eigen::MatrixXcd& mat) {
@@ -119,7 +123,7 @@ void RunMySimulation(const std::string& inputPath, const std::string& outputPath
 		double t_R = doc.GetCell<double>(1, 0);
 		int idx_L = doc.GetCell<int>(0, 1);
 		int idx_R = doc.GetCell<int>(1, 1);
-		double t_lead = -1.0;
+		double t_lead = -1.0; // hardcoded for now, need to change this
 
 		doc.RemoveRow(0);
 		doc.RemoveRow(0);
@@ -155,14 +159,17 @@ void RunMySimulation(const std::string& inputPath, const std::string& outputPath
 }
 
 //**********************************************//
-//              MY CODE BLOCK END               //
+//          PURE LOGIC CODE BLOCK END           //
 //**********************************************//
 
 // Updated to support the visual "slideshow" delay
+
+auto lastRunTime = std::chrono::steady_clock::now();
+
 void UpdateBatchLogic() {
 	if (!batch.isRunning) return;
 
-	// 1. Check if we are done
+	// Check if we are done
 	if (batch.currentIndex >= batch.queue.size()) {
 		batch.isRunning = false;
 		batch.currentFile = "Batch Complete!";
@@ -170,10 +177,15 @@ void UpdateBatchLogic() {
 	}
 
 	// Wait Timer
+	//auto currentTime = std::chrono::steady_clock::now();
+	//std::chrono::duration<float> dT = currentTime - lastRunTime;
 	batch.delayTimer += ImGui::GetIO().DeltaTime; // Add time passed since last frame
 	if (batch.delayTimer < batch.userDelay) {
 		return;
 	}
+	//if (dT.count() < batch.userDelay) {
+	//	return;
+	//}
 
 	// Run simulation for current file
 	batch.delayTimer = 0.0f; // Reset timer
@@ -194,6 +206,7 @@ void UpdateBatchLogic() {
 	batch.currentIndex++;
 }
 
+// Theme (SetupSleekTheme()) initial generation was AI assisted and tweaked after the fact
 void SetupSleekTheme() {
 	ImGuiStyle& style = ImGui::GetStyle();
 	ImVec4* colors = style.Colors;
@@ -204,7 +217,7 @@ void SetupSleekTheme() {
 	style.ChildRounding = 0.0f;
 	style.GrabRounding = 5.0f;
 	style.WindowBorderSize = 0.0f;
-	style.FrameBorderSize = 2.0f; // Thin border for depth
+	style.FrameBorderSize = 2.0f;
 	style.WindowPadding = ImVec2(20, 20);
 	style.ItemSpacing = ImVec2(10, 15);
 
@@ -229,7 +242,7 @@ void SetupSleekTheme() {
 	colors[ImGuiCol_ButtonActive] = ImVec4(0.12f, 0.35f, 0.65f, 1.00f);
 
 	// Plotting Area (Matching the dark theme)
-	colors[ImGuiCol_PlotLines] = ImVec4(0.00f, 0.80f, 1.00f, 1.00f); // Cyan line
+	colors[ImGuiCol_PlotLines] = ImVec4(0.00f, 0.80f, 1.00f, 1.00f);
 	colors[ImGuiCol_PlotHistogram] = ImVec4(0.00f, 0.80f, 1.00f, 1.00f);
 }
 
@@ -253,27 +266,25 @@ int main(int, char**)
 	glfwSwapInterval(1); // Enable vsync
 	glfwSetWindowSizeLimits(window, 1000, 900, GLFW_DONT_CARE, GLFW_DONT_CARE); // Minimum size
 
-	// 2. NEW: "Target-Aware" Drag & Drop Callback
 	// We store the path here. The UI (in the loop) decides where to put it.
 	glfwSetDropCallback(window, [](GLFWwindow* window, int count, const char** paths) {
 		if (count > 0) {
 			droppedFilePath = paths[0];
-			fileJustDropped = true; // Flag for the UI to handle
+			fileJustDropped = true;
 		}
 		});
 
-	// Setup ImGui
+	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	io.IniFilename = nullptr;
 
-	// Font Loading (Regular + Bold)
 	ImFont* mainFont = nullptr;
 	ImFont* boldFont = nullptr;
 	ImFont* titleFont = nullptr;
 
-	// Using Arial as per your previous preference/snippet, with fallback
+	// Using Arial with fallback
 	if (std::filesystem::exists("C:\\Windows\\Fonts\\arial.ttf")) {
 		mainFont = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\arial.ttf", 18.0f);
 		ImFont* titleFont = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\arialbd.ttf", 28.0f);
@@ -282,7 +293,6 @@ int main(int, char**)
 		mainFont = io.Fonts->AddFontDefault();
 	}
 
-	// Try Segoe UI Semibold/Bold for Headers
 	if (std::filesystem::exists("C:\\Windows\\Fonts\\arial.ttf")) {						//seguisb.ttf
 		boldFont = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\arial.ttf", 18.0f);
 	}

@@ -5,6 +5,9 @@
 // This software is released under the GNU General Public License v3.0 (or any later version).
 // --------------------------------------------------------------------------------------------
 
+// AI Disclaimer: No AI was used to generate this code. All code choices and execution was performed
+// by a human.
+
 #pragma once
 #include <Eigen/Dense>
 #include <complex>
